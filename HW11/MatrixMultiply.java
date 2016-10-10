@@ -1,42 +1,35 @@
-import java.lang.*; 	
 import java.util.*;
-class MatrixMultiply{
-	public int N;
-	public int [][] A;
-	public int [][] B;
-	public int [][] C;
-	public MatrixMultiply(int N){
-		this.N = N;
-	}
-	public void run(){
-		callFill(N);
-	}
 
-	public void callFill(int dim){
-		try{fill(dim);}
-		catch (DimensionException e){
-			System.out.print("Please enter a valid dimension: ");
-			Scanner scan = new Scanner(System.in);
-            dim = scan.nextInt();
-            callFill(dim);
-		}
+class MatrixMultiply extends Thread{
+	public Matrix matrix;
+	public int thread_number;
+	public long run_time;
+	public int number_of_threads;
+	public int c_start, c_end, r_start, r_end;
+	public MatrixMultiply(Matrix matrix, int c_start, int c_end,
+		                  int r_start, int r_end){
+		this.matrix = matrix;		
+		this.c_start = c_start;
+		this.c_end = c_end;
+		this.r_start = r_start;
+		this.r_end = r_end;
 	}
-
-	public void fill(int N) throws DimensionException{
-		if ((N % 2 != 0) || (N <1) ){
-			throw new DimensionException(Integer.toString(N));
-		}
-		A = new int[N][N];
-		B = new int[N][N];
-		C = new int[N][N];
-		Random rand = new Random();
-
-		for (int i = 0; i < N; i++){
-			for (int j = 0; j < N; j++){
-				B[i][j] = rand.nextInt(10);
-				C[i][j] = rand.nextInt(10);
+	public void multiply(){	
+		for (int r = r_start; r < r_end; r++){
+			for(int c = c_start; c < c_end; c++){
+				matrix.A[r][c] = 0;
+				for(int i = 0; i < matrix.N; i++){
+					matrix.A[r][c] += matrix.B[r][i] * matrix.C[i][c];
+				} 
 			}
 		}
+	}
+	public long getThreadTime(){return run_time;}
+
+	public void run(){
+		run_time = System.currentTimeMillis();
+		multiply();
+		run_time = System.currentTimeMillis() - run_time;
 	}
 
 } // end class
