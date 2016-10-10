@@ -8,28 +8,6 @@ class Matrix{
 	public Matrix(int N){
 		this.N = N;
 	}
-	public void multiply(int number_of_threads){
-		// 1 Thread
-		if (number_of_threads == 1){
-			long diff = System.currentTimeMillis();
-			for (int r = 0; r < N; r++){
-				for(int c = 0; c < N; c++){
-					A[r][c] = 0;
-					for(int i = 0; i < N; i++){
-						A[r][c] += A[r][i] * B[i][c];
-					} 
-
-				}
-			}
-			diff  = System.currentTimeMillis() - diff;
-			System.out.println(diff);
-		}
-		// 2 Threads
-		if (number_of_threads == 2){
-			long diff = System.currentTimeMillis();
-
-		}
-	}
 	public void callFill(){
 		try{fill(N);}
 		catch (DimensionException e){
