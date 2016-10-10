@@ -8,7 +8,8 @@ class Main{
 	public Main(){}
 
 	public static void main(String[] args){
-		N = Integer.parseInt(args[0]);
+		if (args.length == 1){N = Integer.parseInt(args[0]);}
+		else{N = 0;}
 		Matrix matrix = new Matrix(N);
 		matrix.callFill();
 		
